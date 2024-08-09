@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/blog")
+@CrossOrigin
 public class BlogController {
     @Autowired
     private BlogRepository blogRepository;
@@ -17,10 +19,23 @@ public class BlogController {
         return blogRepository.findAll();
     }
 
-    @GetMapping("/savePost")
+    @PostMapping("/savePost")
     public Blog getAllPost(@RequestBody Blog blog){
         return blogRepository.save(blog);
     }
+
+    @PutMapping("/updatePost/{id}")
+    public Blog updatePost(@PathVariable Integer id,@RequestBody Blog blog){
+        blog.setId(id);
+        return blogRepository.save(blog);
+    }
+
+
+    @DeleteMapping("deletePost/{id}")
+    public void deletePost(@PathVariable Integer id){
+        blogRepository.deleteById(id);
+    }
+
 
     @GetMapping("/getOnePost/{id}")
     public String getOnePost(@PathVariable("id")String id){
